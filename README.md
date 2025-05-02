@@ -22,3 +22,8 @@ python run_dime.py --multirun env_name=dm_control/humanoid-run
 ```
 
 Detailed hyperparameter specifications are available in the config directory. 
+
+## Acknowledgements
+Portions of the project are adapted from other repositories: 
+- https://github.com/DenisBless/UnderdampedDiffusionBridges is licensed under MIT,
+- https://github.com/adityab/CrossQ is licensed under MIT and is built upon code from "[Stable Baselines Jax](https://github.com/araffin/sbx/)"

@@ -61,7 +61,7 @@ class DIME(OffPolicyAlgorithmJax):
                  use_sde: bool = False,
                  sde_sample_freq: int = -1,
                  use_sde_at_warmup: bool = False,
-                 tensorboard_log: Optional[str] = None,  # TODO: alg
+                 tensorboard_log: Optional[str] = None,
                  verbose: int = 0,
                  _init_setup_model: bool = True,
                  stats_window_size: int = 100,

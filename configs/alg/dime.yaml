@@ -3,9 +3,9 @@ policy_tau: 1.0
 utd: 2
 gamma: 0.99
 policy_delay: 3
-batch_size: 256
+batch_size: 512
 buffer_size: 1000000
-learning_starts: 5000
+learning_starts: 50000
 reset_models: False
 
 ent_coef:
@@ -16,7 +16,7 @@ ent_coef:
 critic:
   activation: 'relu'
   n_critics: 2
-  hs: [2048, 2048]
+  hs: [1024, 1024]
   dropout_rate: null # None in yaml
   use_layer_norm: False
   n_atoms: 101

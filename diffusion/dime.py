@@ -125,6 +125,11 @@ class DIME(OffPolicyAlgorithmJax):
 
             self.qf = self.policy.qf  # type: ignore[assignment]
 
+            # print
+            actor_params = sum(p.size for p in jax.tree_util.tree_leaves(self.policy.actor_state.params))
+            critic_params = sum(p.size for p in jax.tree_util.tree_leaves(self.policy.qf_state.params))
+            print(f"Actor parameter: {actor_params:,}, Critic parameter: {critic_params:,}")
+
             # The entropy coefficient or entropy can be learned automatically
             # see Automating Entropy Adjustment for Maximum Entropy RL section
             # of https://arxiv.org/abs/1812.05905
@@ -153,6 +158,8 @@ class DIME(OffPolicyAlgorithmJax):
 
             # automatically set target entropy if needed
             self.target_entropy = self.action_space.shape[0] * 4.0
+            # self.target_entropy = 0
+            # self.target_entropy *= -1
 
     def learn(
         self,
@@ -245,8 +252,8 @@ class DIME(OffPolicyAlgorithmJax):
             self.logger.record(f"train/{k}", log_val)
 
     @staticmethod
-    @partial(jax.jit, static_argnames=["crossq_style", "use_bnstats_from_live_net", "sampler", "num_atoms", "z_atoms",
-                                       "v_min", "v_max", "entr_coeff"])
+    @partial(jax.jit, static_argnames=["crossq_style", "use_bnstats_from_live_net", "num_atoms",
+                                       "v_min", "v_max", "entr_coeff", "sampler"])
     def update_critic(
             crossq_style: bool,
             use_bnstats_from_live_net: bool,
@@ -488,8 +495,9 @@ class DIME(OffPolicyAlgorithmJax):
 
     @classmethod
     @partial(jax.jit,
-             static_argnames=["cls", "crossq_style", "use_bnstats_from_live_net", "gradient_steps", "q_reduce_fn",
-                              "sampler", "target_sampler", "v_min", "v_max", "num_atoms", "entr_coeff"])
+             static_argnames=["cls", "crossq_style", "use_bnstats_from_live_net", "gradient_steps",
+                              "v_min", "v_max", "num_atoms", "entr_coeff", "q_reduce_fn", 
+                              "sampler", "target_sampler"])
     def _train(
             cls,
             crossq_style: bool,

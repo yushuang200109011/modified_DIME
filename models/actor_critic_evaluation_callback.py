@@ -8,6 +8,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv, VecEnv, sync_envs_norm
 import numpy as np
 import os
 import jax
+import wandb
 
 
 class EvalCallback(EventCallback):
@@ -184,6 +185,12 @@ class EvalCallback(EventCallback):
             # Add to current Logger
             self.logger.record("eval/mean_reward", float(mean_reward))
             self.logger.record("eval/mean_ep_length", mean_ep_length)
+
+            # also in wandb
+            wandb.log({
+                "eval/mean_reward": mean_reward,
+                "eval/mean_ep_length": mean_ep_length,
+            }, step=self.num_timesteps)
 
             if len(self._is_success_buffer) > 0:
                 success_rate = np.mean(self._is_success_buffer)

@@ -6,8 +6,25 @@ defaults:
   - _self_
 
 seed: 0
+device: 0
+if_robomimic: False
+if_ogbench: False
+env_name: HumanoidStandup-v4
+
+# Configuration for robomimic environments
+wrappers:
+  robomimic_lowdim:
+    normalization_path: "env/normalization/can/normalization.npz"
+    low_dim_keys: 
+      - 'robot0_eef_pos'
+      - 'robot0_eef_quat'
+      - 'robot0_gripper_qpos'
+      - 'object'
+    max_episode_steps: 300
+
+
 use_jit: true
-tot_time_steps: 1e6
+tot_time_steps: 1000000
 log_freq: 100
 step_size: ${alg.optimizer.lr_actor}
 step_size_betas: ${alg.optimizer.lr_actor}
@@ -21,6 +38,4 @@ per_dim_friction: True
 use_step_size_scheduler: False
 warmup: const
 iters: ${tot_time_steps}
-warmup_iters: 60_000
-
-env_name: dm_control/dog-run
+warmup_iters: 60000
